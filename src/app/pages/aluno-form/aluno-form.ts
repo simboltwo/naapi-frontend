@@ -97,9 +97,29 @@ export class AlunoForm implements OnInit {
             });
         },
         error: (err) => {
-            console.error('Erro ao carregar aluno para edição:', err);
-            alert('Aluno não encontrado!');
-            this.router.navigate(['/alunos']); // Volta para a lista se der erro
+          console.error('Erro ao salvar:', err);
+          let mensagemErro = 'Ocorreu um erro ao salvar.'; // Mensagem padrão
+
+          if (err.status === 422 && err.error?.errors) {
+            // Se for erro de validação (422) e tiver a lista de erros do backend
+            mensagemErro = 'Por favor, corrija os seguintes erros:\n';
+            err.error.errors.forEach((fieldError: { fieldName: string, message: string }) => {
+              mensagemErro += `- ${fieldError.fieldName}: ${fieldError.message}\n`;
+              // Opcional: Marcar o campo específico no formulário como inválido
+              const control = this.form.get(fieldError.fieldName);
+              if (control) {
+                control.setErrors({ 'backendError': fieldError.message });
+              }
+            });
+          } else if (err.error?.message) {
+            // Se for outro erro da API com mensagem
+            mensagemErro = err.error.message;
+          } else if (err.message) {
+            // Se for um erro geral do HTTP
+            mensagemErro = err.message;
+          }
+
+          alert(mensagemErro); // Ou usar um serviço de notificação mais elegante
         }
     });
   }

@@ -1,4 +1,4 @@
 export class Curso {
-id: any;
-nome: any;
+  id!: number; // Alterado de any
+  nome!: string; // Alterado de any
 }

@@ -1,1 +1,74 @@
-/* You can add global styles to this file, and also import other style files */
+/* src/styles.css */
+@import "animate.css";
+/* Define variáveis de cor globais */
+:root {
+  --naapi-navy: #001f3f;       /* Azul Marinho Principal */
+  --naapi-navy-darker: #001122; /* Tom mais escuro para hover/active */
+  --naapi-navy-lighter: #003366;/* Tom mais claro */
+  --naapi-yellow: #FFDC00;     /* Amarelo Principal */
+  --naapi-yellow-darker: #e6c600;/* Tom mais escuro para hover/active */
+  --naapi-bg-light: #f8f9fa;   /* Fundo claro */
+  --naapi-text-muted: #6c757d; /* Cinza para texto suave */
+
+  /* Sobrescrevendo cores Bootstrap (Opcional, mas útil para consistência) */
+  --bs-primary: var(--naapi-navy);
+  --bs-primary-rgb: 0, 31, 63;
+  --bs-secondary: #6c757d; /* Cinza padrão do Bootstrap */
+  --bs-secondary-rgb: 108, 117, 125;
+  --bs-warning: var(--naapi-yellow);
+  --bs-warning-rgb: 255, 220, 0;
+  --bs-link-color: var(--naapi-navy-lighter);
+  --bs-link-hover-color: var(--naapi-navy-darker);
+  --bs-body-bg: var(--naapi-bg-light); /* Fundo padrão do body */
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529; /* Cor de texto padrão mais escura */
+  background-color: var(--bs-body-bg);
+}
+
+/* Estilos de Botão Primário (Azul Marinho) */
+.btn-primary {
+  --bs-btn-bg: var(--naapi-navy);
+  --bs-btn-border-color: var(--naapi-navy);
+  --bs-btn-hover-bg: var(--naapi-navy-lighter);
+  --bs-btn-hover-border-color: var(--naapi-navy-lighter);
+  --bs-btn-active-bg: var(--naapi-navy-darker);
+  --bs-btn-active-border-color: var(--naapi-navy-darker);
+  --bs-btn-disabled-bg: #adb5bd; /* Cinza para desabilitado */
+  --bs-btn-disabled-border-color: #adb5bd;
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+}
+
+/* Estilo para Foco (Amarelo) */
+.form-control:focus, .form-select:focus {
+  border-color: var(--naapi-yellow);
+  box-shadow: 0 0 0 0.25rem rgba(255, 220, 0, 0.3);
+}
+
+/* Títulos das Páginas/Cards */
+h2.page-title {
+  color: var(--naapi-navy);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+/* Estilo Base para Cards */
+.card {
+  border: none; /* Remover borda padrão */
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Sombra suave */
+}
+
+.card-header.naapi-card-header {
+  background-color: var(--naapi-navy);
+  color: var(--naapi-yellow);
+  font-weight: bold;
+  border-bottom: 1px solid var(--naapi-navy-darker);
+}

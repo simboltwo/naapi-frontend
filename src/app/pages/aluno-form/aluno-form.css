@@ -1,0 +1,8 @@
+.diagnosticos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Cria colunas responsivas */
+  gap: 0.5rem; /* Espaço entre checkboxes */
+}
+.form-check-inline {
+    margin-right: 0; /* Remove margem padrão para funcionar bem no grid */
+}

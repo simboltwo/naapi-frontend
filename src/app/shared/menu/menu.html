@@ -1,10 +1,22 @@
-<nav style="background-color: #333; padding: 10px; color: white;">
-    <a [routerLink]="['/']" style="color: white; text-decoration: none; font-weight: bold; margin-right: 20px;">
-        NAAPI
+<nav class="navbar navbar-expand-lg navbar-dark naapi-navbar shadow-sm sticky-top"> <div class="container-fluid">
+    <a class="navbar-brand fw-bold d-flex align-items-center" [routerLink]="['/']">
+      NAAPI
     </a>
-    <span *ngFor="let item of menuItems">
-        <a [routerLink]="[item.path]" style="color: white; margin-right: 15px;">
-            {{ item.title }}
-        </a>
-    </span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0"> <li class="nav-item" *ngFor="let item of menuItems">
+          <a class="nav-link px-3" [routerLink]="[item.path]"
+              routerLinkActive="active active-link" [routerLinkActiveOptions]="{exact: item.path === '/'}"> {{ item.title }}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-3 logout-link" href="#" (click)="logout($event)">
+            <i class="bi bi-box-arrow-right me-1"></i> Sair
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </nav>

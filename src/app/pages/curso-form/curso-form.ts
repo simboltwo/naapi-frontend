@@ -41,9 +41,30 @@ export class CursoForm implements OnInit {
     this.cursoService.findById(id).subscribe({
       next: (curso) => this.form.patchValue(curso),
       error: (err) => {
-        alert('Curso não encontrado!');
-        this.router.navigate(['/cursos']);
-      }
+          console.error('Erro ao salvar:', err);
+          let mensagemErro = 'Ocorreu um erro ao salvar.'; // Mensagem padrão
+
+          if (err.status === 422 && err.error?.errors) {
+            // Se for erro de validação (422) e tiver a lista de erros do backend
+            mensagemErro = 'Por favor, corrija os seguintes erros:\n';
+            err.error.errors.forEach((fieldError: { fieldName: string, message: string }) => {
+              mensagemErro += `- ${fieldError.fieldName}: ${fieldError.message}\n`;
+              // Opcional: Marcar o campo específico no formulário como inválido
+              const control = this.form.get(fieldError.fieldName);
+              if (control) {
+                control.setErrors({ 'backendError': fieldError.message });
+              }
+            });
+          } else if (err.error?.message) {
+            // Se for outro erro da API com mensagem
+            mensagemErro = err.error.message;
+          } else if (err.message) {
+            // Se for um erro geral do HTTP
+            mensagemErro = err.message;
+          }
+
+          alert(mensagemErro); // Ou usar um serviço de notificação mais elegante
+        }
     });
   }
 
@@ -63,7 +84,29 @@ export class CursoForm implements OnInit {
         alert(`Curso ${this.isEdicao ? 'atualizado' : 'cadastrado'}!`);
         this.router.navigate(['/cursos']);
       },
-      error: (err) => alert(`Erro ao salvar: ${err.error?.message || err.message}`)
+      error: (err) => {
+        console.error('Erro ao salvar curso:', err);
+        let mensagemErro = 'Ocorreu um erro ao salvar o curso.'; // Padrão
+
+        if (err.status === 422 && err.error?.errors) {
+          mensagemErro = 'Por favor, corrija os seguintes erros:\n';
+          err.error.errors.forEach((fieldError: { fieldName: string, message: string }) => {
+            mensagemErro += `- ${fieldError.fieldName}: ${fieldError.message}\n`;
+            const control = this.form.get(fieldError.fieldName);
+            if (control) {
+              // Adiciona o erro vindo do backend ao controle do formulário
+              control.setErrors({ ...(control.errors || {}), 'backendError': fieldError.message });
+            }
+          });
+          alert(mensagemErro); // Mostra resumo em alert
+          this.form.markAllAsTouched(); // Garante que o erro do backend apareça no campo
+        } else if (err.error?.message) {
+          mensagemErro = err.error.message; // Mensagem de erro de negócio (ex: nome duplicado)
+          alert(`Erro: ${mensagemErro}`);
+        } else {
+          alert(mensagemErro); // Erro genérico
+        }
+      }
     });
   }
 }

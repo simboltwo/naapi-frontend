@@ -1,0 +1,40 @@
+.naapi-navbar {
+  background-color: var(--naapi-navy);
+  padding-top: 0.8rem; /* Aumenta um pouco a altura */
+  padding-bottom: 0.8rem;
+}
+
+.navbar-brand {
+   color: var(--naapi-yellow) !important;
+   font-size: 1.5rem; /* Tamanho da fonte da marca */
+   transition: opacity 0.2s ease;
+}
+.navbar-brand:hover {
+    opacity: 0.9;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.8) !important; /* Cor dos links normais (branco suave) */
+  transition: color 0.2s ease, background-color 0.2s ease;
+  border-radius: 4px; /* Leve arredondamento para hover */
+  margin: 0 0.2rem; /* Pequeno espaçamento entre links */
+}
+
+/* Efeito hover geral */
+.nav-link:hover:not(.active-link) { /* Não aplica hover se já estiver ativo */
+  color: #fff !important; /* Branco mais forte no hover */
+  background-color: var(--naapi-navy-lighter); /* Fundo azul mais claro no hover */
+}
+
+/* Estilo do link ativo */
+.nav-link.active-link {
+  color: var(--naapi-yellow) !important; /* Cor amarela para ativo */
+  font-weight: 500; /* Negrito suave */
+  background-color: rgba(255, 255, 255, 0.1); /* Fundo sutil para ativo */
+}
+
+/* Estilo específico para o link de Sair (opcional) */
+.logout-link:hover {
+    background-color: rgba(255, 0, 0, 0.2); /* Fundo avermelhado suave no hover */
+    color: #ffdddd !important; /* Texto avermelhado claro */
+}

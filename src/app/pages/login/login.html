@@ -1,35 +1,68 @@
-<div class="container mt-5">
-    <h2>Autenticar Usuário (Admin)</h2>
+<div class="login-background">
+  <div class="login-card card shadow-lg animate__animated animate__fadeIn">
+     <div class="card-body p-4 p-md-5">
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-            <label for="username" class="form-label">Email (Login):</label>
+      <div class="text-center mb-4">
+      </div>
+
+      <h2 class="card-title text-center mb-3 login-title">Bem-vindo(a)</h2>
+      <p class="text-center text-muted mb-4">Acesse a plataforma NAAPI</p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="bi bi-envelope-fill text-muted"></i></span>
+           <div class="form-floating flex-grow-1">
             <input
-                id="username"
-                type="text"
-                class="form-control"
-                formControlName="username"
+              id="username"
+              type="email"
+              class="form-control"
+              formControlName="username"
+               placeholder="seu.email@dominio.com"
+              required
+              autocomplete="username"
             >
+            <label for="username">Email</label>
+          </div>
+        </div>
+        <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="text-danger mb-3 small ms-1">
+          Por favor, insira um email válido.
         </div>
 
-        <div class="mb-3">
-            <label for="password" class="form-label">Senha:</label>
+        <div class="mb-4 input-group">
+           <span class="input-group-text"><i class="bi bi-lock-fill text-muted"></i></span>
+           <div class="form-floating flex-grow-1">
             <input
-                id="password"
-                type="password"
-                class="form-control"
-                formControlName="password"
+              id="password"
+              type="password"
+              class="form-control"
+              formControlName="password"
+              placeholder="Sua senha"
+              required
+              autocomplete="current-password"
             >
+            <label for="password">Senha</label>
+          </div>
+        </div>
+         <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger mb-4 small ms-1">
+          Senha é obrigatória.
         </div>
 
-        <button
+         <div class="d-grid gap-2">
+          <button
             type="submit"
-            class="btn btn-primary"
+             class="btn btn-primary btn-lg btn-login-custom"
             [disabled]="loginForm.invalid"
-        >
-            Entrar
-        </button>
+          >
+            <i class="bi bi-box-arrow-in-right me-2"></i> Entrar
+          </button>
+        </div>
 
-        <p class="mt-3">Use: admin@naapi.com / 123456</p>
-    </form>
+        <p class="mt-4 text-center text-muted small login-help-text">
+          (admin@naapi.com / 123456)
+        </p>
+
+        </form>
+    </div>
+  </div>
 </div>
