@@ -1,1 +1,10 @@
-<p>menu works!</p>
+<nav style="background-color: #333; padding: 10px; color: white;">
+    <a [routerLink]="['/']" style="color: white; text-decoration: none; font-weight: bold; margin-right: 20px;">
+        NAAPI
+    </a>
+    <span *ngFor="let item of menuItems">
+        <a [routerLink]="[item.path]" style="color: white; margin-right: 15px;">
+            {{ item.title }}
+        </a>
+    </span>
+</nav>

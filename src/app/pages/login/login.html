@@ -1,1 +1,35 @@
-<p>login works!</p>
+<div class="container mt-5">
+    <h2>Autenticar Usuário (Admin)</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label for="username" class="form-label">Email (Login):</label>
+            <input
+                id="username"
+                type="text"
+                class="form-control"
+                formControlName="username"
+            >
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Senha:</label>
+            <input
+                id="password"
+                type="password"
+                class="form-control"
+                formControlName="password"
+            >
+        </div>
+
+        <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="loginForm.invalid"
+        >
+            Entrar
+        </button>
+
+        <p class="mt-3">Use: admin@naapi.com / 123456</p>
+    </form>
+</div>

@@ -1,30 +1,27 @@
-// src/app/services/aluno.ts (CORRIGIDO)
+// src/app/services/aluno.ts
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Aluno } from '../models/aluno'; // <-- ESTE É O MODEL
+import { Aluno } from '../models/aluno'; // <-- Importa o modelo da pasta models
 import { appSettings } from '../app.settings';
-import { Auth } from './auth'; // <-- O Auth Service
+import { Auth } from './auth'; // Service de autenticação
 
 @Injectable({
   providedIn: 'root'
 })
-// RENOMEAMOS ESTA CLASSE PARA AlunoService para evitar conflito com o Model Aluno
+// Esta classe é o Service e chama-se AlunoService
 export class AlunoService {
 
-  private apiUrl = `${appSettings.apiBaseUrl}/alunos`;
+    private apiUrl = `${appSettings.apiBaseUrl}/alunos`;
 
-  // Injetamos o HttpClient e o Auth Service
-  constructor(private http: HttpClient, private auth: Auth) { }
+    constructor(private http: HttpClient, private auth: Auth) { }
 
-  // Função para listar todos os alunos
-  findAll(): Observable<Aluno[]> { // Usa o Model Aluno aqui
-    return this.http.get<Aluno[]>(this.apiUrl, this.auth.getAuthHeaders());
-  }
+    findAll(): Observable<Aluno[]> {
+        return this.http.get<Aluno[]>(this.apiUrl, this.auth.getAuthHeaders());
+    }
 
-  // (A função insert do plano anterior)
-  insert(aluno: Aluno): Observable<Aluno> {
-    return this.http.post<Aluno>(this.apiUrl, aluno, this.auth.getAuthHeaders());
-  }
+    insert(aluno: Aluno): Observable<Aluno> {
+        return this.http.post<Aluno>(this.apiUrl, aluno, this.auth.getAuthHeaders());
+    }
 }

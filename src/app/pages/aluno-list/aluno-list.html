@@ -9,7 +9,6 @@
       <th>Nome Completo</th>
       <th>Matrícula</th>
       <th>Prioridade</th>
-      <th>Curso</th>
       <th>Ações</th>
     </tr>
   </thead>
@@ -19,15 +18,14 @@
       <td>{{ aluno.nome }}</td>
       <td>{{ aluno.matricula }}</td>
       <td>{{ aluno.prioridadeAtendimento ? 'SIM' : 'NÃO' }}</td>
-      <td>{{ aluno.curso?.nome || 'N/A' }}</td>
       <td>
         <button [routerLink]="['/alunos', aluno.id]">Editar</button>
-        <button (click)="excluir(aluno.id)">Excluir</button>
+        <button (click)="excluir(aluno.id!)">Excluir</button>
       </td>
     </tr>
   </tbody>
 </table>
 
 <ng-template #noData>
-    <p>Nenhum aluno ativo encontrado. Crie um novo registo.</p>
+    <p>Nenhum aluno ativo encontrado ou erro ao carregar os dados. Tente fazer login novamente.</p>
 </ng-template>

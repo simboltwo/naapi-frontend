@@ -11,8 +11,8 @@ import { appSettings } from '../app.settings'; // <-- Usa a tua própria configu
 })
 export class Auth {
   // Define as credenciais aqui. Usamos os valores fixos do Admin que criaste.
-  private readonly USERNAME = 'admin@naapi.com';
-  private readonly PASSWORD = '123456';
+  public readonly USERNAME = 'admin@naapi.com';
+  public readonly PASSWORD = '123456';
 
   constructor() { }
 
