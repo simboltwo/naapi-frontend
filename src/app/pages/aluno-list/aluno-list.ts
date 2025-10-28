@@ -15,7 +15,6 @@ export class AlunoList implements OnInit {
 
     alunos: Aluno[] = [];
 
-    // Injetar o Service e o Router
     constructor(private alunoService: AlunoService, private router: Router) { }
 
     ngOnInit(): void {
@@ -24,12 +23,9 @@ export class AlunoList implements OnInit {
 
     carregarAlunos(): void {
         this.alunoService.findAll().subscribe({
-            next: (data) => {
-                this.alunos = data;
-            },
+            next: (data) => { this.alunos = data; },
             error: (err) => {
                 console.error('Erro ao carregar alunos:', err);
-                // Se o Basic Auth falhar (401), redireciona para o login
                 if (err.status === 401 || err.status === 403) {
                     this.router.navigate(['/login']);
                 }
@@ -41,10 +37,22 @@ export class AlunoList implements OnInit {
         this.router.navigate(['/alunos/novo']);
     }
 
+    // --- LÓGICA DE EXCLUSÃO ---
     excluir(id: number): void {
-        if (confirm('Tem certeza que deseja excluir este aluno?')) {
-            // A implementação do DELETE ficará no service AlunoService
-            alert('Ação de DELETE ainda não implementada no Service, mas seria executada aqui.');
+        // Pede confirmação
+        if (confirm('Tem a certeza que deseja excluir este aluno? Esta ação marcará o aluno como inativo.')) {
+            // Chama o serviço de exclusão
+            this.alunoService.delete(id).subscribe({
+                next: () => {
+                    alert('Aluno excluído (inativado) com sucesso!');
+                    // Recarrega a lista para remover o aluno da tabela
+                    this.carregarAlunos();
+                },
+                error: (err) => {
+                    console.error('Erro ao excluir aluno:', err);
+                    alert(`Erro ao excluir: ${err.message}`);
+                }
+            });
         }
     }
 }

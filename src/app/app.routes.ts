@@ -1,22 +1,24 @@
 // src/app/app.routes.ts
-
 import { Routes } from '@angular/router';
-import { Login } from './pages/login/login'; // Renomear 'Login' para 'LoginComponent' é uma boa prática
-import { AlunoList } from './pages/aluno-list/aluno-list'; // Renomear 'AlunoList' para 'AlunoListComponent'
-import { AlunoForm } from './pages/aluno-form/aluno-form';
+import { Login } from './pages/login/login'; // Renomear classe no ficheiro login.ts
+import { AlunoList } from './pages/aluno-list/aluno-list'; // Renomear classe no ficheiro aluno-list.ts
+import { AlunoForm } from './pages/aluno-form/aluno-form'; // Renomear classe no ficheiro aluno-form.ts
+import { CursoList } from './pages/curso-list/curso-list'; // Importa o novo
+import { CursoForm } from './pages/curso-form/curso-form'; // Importa o novo
 
 export const routes: Routes = [
-    // Rota inicial - Redireciona para Login
     { path: '', redirectTo: 'login', pathMatch: 'full' },
-
-    // Rota de Login
     { path: 'login', component: Login },
 
-    // Rotas de Alunos (Área Protegida)
-    { path: 'alunos', component: AlunoList }, // Lista de alunos
-    { path: 'alunos/novo', component: AlunoForm }, // Formulário para novo aluno
-    { path: 'alunos/:id', component: AlunoForm }, // Formulário para editar aluno
+    { path: 'alunos', component: AlunoList },
+    { path: 'alunos/novo', component: AlunoForm },
+    { path: 'alunos/:id', component: AlunoForm },
 
-    // Catch-all (opcional, redireciona para login)
+    // --- NOVAS ROTAS PARA CURSOS ---
+    { path: 'cursos', component: CursoList },
+    { path: 'cursos/novo', component: CursoForm},
+    { path: 'cursos/:id', component: CursoForm },
+    // --- FIM DAS NOVAS ROTAS ---
+
     { path: '**', redirectTo: 'login' }
 ];

@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h2>Gestão de Cursos</h2>
+  <a [routerLink]="['/cursos/novo']" class="btn btn-primary mb-3">Novo Curso</a>
+
+  <table *ngIf="cursos.length > 0; else semCursos" class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome do Curso</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let curso of cursos">
+        <td>{{ curso.id }}</td>
+        <td>{{ curso.nome }}</td>
+        <td>
+          <a [routerLink]="['/cursos', curso.id]" class="btn btn-sm btn-secondary me-2">Editar</a>
+          <button (click)="excluir(curso.id!)" class="btn btn-sm btn-danger">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #semCursos>
+    <p>Nenhum curso cadastrado.</p>
+  </ng-template>
+</div>

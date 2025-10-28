@@ -1,0 +1,17 @@
+<div class="container mt-4">
+  <h2 *ngIf="!isEdicao">Cadastrar Novo Curso</h2>
+  <h2 *ngIf="isEdicao">Editar Curso (ID: {{ cursoId }})</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome do Curso</label>
+      <input type="text" id="nome" class="form-control" formControlName="nome">
+      <div *ngIf="form.get('nome')?.invalid && form.get('nome')?.touched" class="text-danger">
+        Nome é obrigatório (3-45 caracteres).
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Salvar</button>
+    <a [routerLink]="['/cursos']" class="btn btn-secondary ms-2">Cancelar</a>
+  </form>
+</div>
