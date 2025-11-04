@@ -24,7 +24,6 @@ export class ResponsavelDTO {
     telefone?: string;
     autorizadoBuscar?: boolean;
 }
-
 // Modelo principal (DTO) Aluno - Mapeado do AlunoDTO.java
 export class Aluno {
     id!: number;
@@ -32,10 +31,10 @@ export class Aluno {
     nomeSocial?: string;
     matricula!: string;
     cpf?: string;
-    dataNascimento?: string; // API manda como string
+    dataNascimento?: string;
     serie?: string;
     foto?: string;
-    prioridade?: string; // API manda String
+    prioridade?: string;
     nomeProtegido?: string;
     provaOutroEspaco?: boolean;
     adaptacoesNecessarias?: string;
@@ -49,7 +48,7 @@ export class Aluno {
     processoSipac?: string;
     anotacoesNaapi?: string;
     necessidadesRelatoriosMedicos?: string;
-    dataUltimoLaudo?: string; // API manda como string
+    dataUltimoLaudo?: string;
     ativo!: boolean;
 
     // Relacionamentos
@@ -57,6 +56,6 @@ export class Aluno {
     turma?: TurmaDTO;
     diagnosticos!: DiagnosticoDTO[];
 
-    // --- CORRIGIDO: Lista de responsáveis que vem da API ---
+    // --- CORREÇÃO: Adicionar a lista de responsáveis ---
     responsaveis!: ResponsavelDTO[];
 }

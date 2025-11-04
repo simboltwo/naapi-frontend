@@ -31,10 +31,12 @@ export class AlunoInsert {
   turmaId!: number;
   diagnosticosId?: number[];
 
-  // --- CORRIGIDO: Este é o campo que a API espera ---
+  // --- CORREÇÃO: Este é o campo que a API espera ---
   responsaveis?: ResponsavelInsert[];
 
   tipoAtendimentoPrincipalId?: number;
   assistenteReferenciaId?: number;
   membroNaapiReferenciaId?: number;
+
+  // Os campos 'nomeResponsavel' e 'telefoneResponsavel' foram removidos.
 }

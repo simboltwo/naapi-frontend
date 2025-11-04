@@ -73,6 +73,9 @@ export class AlunoForm implements OnInit {
       this.alunoId = +idParam;
       this.isEdicao = true;
       this.carregarDadosAluno(this.alunoId);
+    } else {
+      // Se for um novo aluno, adiciona um responsável em branco
+      this.adicionarResponsavel();
     }
   }
 
@@ -120,7 +123,7 @@ export class AlunoForm implements OnInit {
     return this.pessoalForm.get('responsaveis') as FormArray;
   }
 
-  // --- NOVO (Correção Erro 3): Getter para o template HTML ---
+  // --- CORREÇÃO: Getter para o template HTML ---
   get responsaveisControls() {
     return this.responsaveisArray.controls as FormGroup[];
   }
@@ -140,7 +143,11 @@ export class AlunoForm implements OnInit {
   }
 
   removerResponsavel(index: number): void {
-    this.responsaveisArray.removeAt(index);
+    if (this.responsaveisArray.length > 1) {
+       this.responsaveisArray.removeAt(index);
+    } else {
+      alert('É necessário ter pelo menos um responsável.');
+    }
   }
   // --- Fim dos Helpers ---
 
@@ -217,12 +224,16 @@ export class AlunoForm implements OnInit {
                 diagnosticosFormArray.push(this.fb.control(diag.id));
             });
 
-            // Popula Responsáveis
+            // --- ATUALIZADO: Popula Responsáveis ---
             this.responsaveisArray.clear();
-            if (aluno.responsaveis) {
+            if (aluno.responsaveis && aluno.responsaveis.length > 0) {
               aluno.responsaveis.forEach(resp => {
                 this.responsaveisArray.push(this.novoResponsavel(resp));
               });
+            } else {
+              // Garante que haja pelo menos um campo de responsável se for edição
+              // e não vier nenhum (embora a API agora deva sempre enviar)
+              this.adicionarResponsavel();
             }
         },
         error: (err) => this.handleApiError(err, 'carregar')
@@ -233,7 +244,7 @@ export class AlunoForm implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      if (file.size > 10 * 1024 * 1024) { // 10MB (aumentamos o limite)
+      if (file.size > 10 * 1024 * 1024) { // 10MB
         alert('Erro: A imagem é muito grande. (Máx 10MB)');
         input.value = '';
         return;
@@ -311,7 +322,6 @@ export class AlunoForm implements OnInit {
       ...naapiData
     };
 
-    // O campo 'foto' (arquivo) é enviado separadamente
     const operacao = this.isEdicao
       ? this.alunoService.update(this.alunoId!, alunoDados, this.fotoArquivo)
       : this.alunoService.insert(alunoDados, this.fotoArquivo);
@@ -334,6 +344,8 @@ export class AlunoForm implements OnInit {
          mensagemErro = err.error.message;
       } else if (err.error?.message) {
         mensagemErro = err.error.message;
+      } else if (err.status === 500) {
+        mensagemErro = "Ocorreu um erro interno no servidor. Verifique os logs da API."
       }
 
       alert(mensagemErro);
