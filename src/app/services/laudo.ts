@@ -5,25 +5,29 @@ import { Observable } from 'rxjs';
 import { appSettings } from '../app.settings';
 import { Auth } from './auth';
 import { Laudo, LaudoInsert } from '../models/laudo';
-
 @Injectable({ providedIn: 'root' })
 export class LaudoService {
-  // Baseado no LaudoController.java
   private apiUrl = `${appSettings.apiBaseUrl}/laudos`;
 
   constructor(private http: HttpClient, private auth: Auth) { }
 
-  // GET /laudos/aluno/{alunoId}
   findByAlunoId(alunoId: number): Observable<Laudo[]> {
     return this.http.get<Laudo[]>(`${this.apiUrl}/aluno/${alunoId}`, this.auth.getAuthHeaders());
   }
 
-  // POST /laudos
-  insert(laudo: LaudoInsert): Observable<Laudo> {
-    return this.http.post<Laudo>(this.apiUrl, laudo, this.auth.getAuthHeaders());
+  insert(laudoDto: LaudoInsert, file: File): Observable<Laudo> {
+
+    const formData = new FormData();
+
+    formData.append('alunoId', laudoDto.alunoId.toString());
+    formData.append('dataEmissao', laudoDto.dataEmissao || '');
+    formData.append('descricao', laudoDto.descricao || '');
+
+    formData.append('file', file, file.name);
+
+    return this.http.post<Laudo>(this.apiUrl, formData, this.auth.getAuthHeaders(true));
   }
 
-  // DELETE /laudos/{id}
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, this.auth.getAuthHeaders());
   }

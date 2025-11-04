@@ -185,7 +185,6 @@ export class AlunoDetalheComponent implements OnInit {
   inicializarFormLaudo(): void {
     this.formLaudo = this.fb.group({
       dataEmissao: [new Date().toISOString().split('T')[0], Validators.required],
-      urlArquivo: ['https://upload-nao-implementado.com', Validators.required], // Valor fake para validar
       descricao: [''],
     });
   }
@@ -226,27 +225,27 @@ export class AlunoDetalheComponent implements OnInit {
       return;
     }
 
-    // --- ALERTA DE BLOQUEIO (B4) ---
-    if (this.laudoFile) {
-      alert('Upload de Arquivo (Bloqueado): A API ainda não está pronta para receber arquivos. Esta funcionalidade precisa de atualização no backend (Java) para aceitar MultipartFile.');
-       // Se o backend fosse atualizado, aqui chamaríamos o serviço de upload
-       // e só depois o laudoService.insert() com a URL retornada.
+    if (!this.laudoFile) {
+      alert('Erro: Por favor, selecione um arquivo PDF para o laudo.');
       return;
     }
 
-    // (A lógica abaixo só funcionará se o usuário colar uma URL manualmente)
     const payload: LaudoInsert = {
       ...this.formLaudo.value,
-      alunoId: this.alunoId
+      alunoId: this.alunoId,
+      urlArquivo: ''
     };
 
-    this.laudoService.insert(payload).subscribe({
+    this.laudoService.insert(payload, this.laudoFile).subscribe({
       next: (novoLaudo) => {
         this.laudos.update(lista => [novoLaudo, ...lista]);
         this.fecharModalLaudo();
         this.laudoFile = null; // Limpa o arquivo
       },
-      error: (err) => alert('Erro ao salvar laudo. Verifique se a URL é válida.')
+      error: (err) => {
+        console.error("Erro ao salvar laudo:", err);
+        alert(`Erro ao salvar laudo: ${err.error?.message || 'Verifique os dados.'}`);
+      }
     });
   }
 
