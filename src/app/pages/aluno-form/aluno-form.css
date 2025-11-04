@@ -1,8 +1,40 @@
+/* src/app/pages/aluno-form/aluno-form.css */
 .diagnosticos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Cria colunas responsivas */
-  gap: 0.5rem; /* Espaço entre checkboxes */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.5rem;
 }
 .form-check-inline {
-    margin-right: 0; /* Remove margem padrão para funcionar bem no grid */
+    margin-right: 0;
+}
+
+/* --- NOVO: Estilos para Upload de Foto --- */
+.foto-perfil-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.foto-preview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  background-size: cover;
+  background-position: center;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 10px rgba(0,31,63,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #adb5bd;
+  font-size: 3rem;
+  overflow: hidden; /* Garante que a imagem não vaze */
+}
+
+.foto-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

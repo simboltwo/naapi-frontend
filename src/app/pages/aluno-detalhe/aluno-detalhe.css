@@ -1,0 +1,146 @@
+/* src/app/pages/aluno-detalhe/aluno-detalhe.css */
+
+/* Avatar Grande */
+.aluno-avatar-detalhe {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: var(--naapi-navy);
+  color: var(--naapi-yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 600;
+  margin: 0 auto;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 10px rgba(0,31,63,0.1);
+}
+
+.list-group-item {
+  font-size: 0.95rem;
+}
+.list-group-item strong {
+  color: var(--naapi-navy);
+  display: block;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+/* Estrutura da Timeline */
+.timeline {
+  position: relative;
+  padding-left: 30px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 5px;
+  bottom: 5px;
+  width: 3px;
+  background-color: #e9ecef;
+  border-radius: 2px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -20px;
+  top: 5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--naapi-navy-lighter);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px var(--naapi-navy-lighter);
+}
+.timeline-item:first-child .timeline-dot {
+   background-color: var(--naapi-yellow);
+   box-shadow: 0 0 0 3px var(--naapi-yellow);
+}
+
+.timeline-content {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  position: relative;
+}
+/* --- NOVO: Hover para mostrar botões --- */
+.timeline-content:hover {
+  background-color: #f1f3f5;
+}
+
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed #dee2e6;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.timeline-title {
+  font-weight: 600;
+  color: var(--naapi-navy);
+  font-size: 1.1rem;
+}
+
+.timeline-date {
+  font-size: 0.85rem;
+}
+
+.timeline-body p {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #495057;
+}
+
+/* --- NOVO: Botões de Ação da Timeline --- */
+.timeline-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  display: flex;
+  gap: 4px;
+  background-color: #fff;
+  border-radius: 50px;
+  padding: 2px 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.timeline-content:hover .timeline-actions {
+  opacity: 1;
+}
+.timeline-actions .btn-link-secondary {
+  color: var(--bs-secondary);
+}
+.timeline-actions .btn-link-secondary:hover {
+  color: var(--bs-primary);
+}
+.timeline-actions .btn-link-danger {
+  color: var(--bs-danger);
+}
+.timeline-actions .btn-link-danger:hover {
+  color: #a11322;
+}
+
+
+/* Estilos do Modal (Backdrop) */
+.modal.show {
+  display: block;
+}
+.modal-backdrop.show {
+  opacity: 0.5;
+}

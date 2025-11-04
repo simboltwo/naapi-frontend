@@ -1,0 +1,280 @@
+<div class="container mt-4">
+
+  <a [routerLink]="['/alunos']" class="btn btn-outline-secondary mb-3">
+    <i class="bi bi-arrow-left me-1"></i> Voltar ao Painel
+  </a>
+
+  <div class="row g-4" *ngIf="aluno() as aluno; else loading">
+
+    <div class="col-lg-4 col-md-5">
+      <div class="card shadow-sm position-sticky" style="top: 20px;">
+        <div class="card-body text-center">
+          <div class="aluno-avatar-detalhe mb-3">
+            {{ getIniciais(aluno.nome) }}
+          </div>
+          <h4 class="mb-1">{{ aluno.nome }}</h4>
+          <p *ngIf="aluno.nomeSocial" class="text-muted small">({{ aluno.nomeSocial }})</p>
+          <p class="text-muted mb-3">Matrícula: {{ aluno.matricula }}</p>
+
+          <span *ngIf="aluno.prioridade && aluno.prioridade !== 'Baixa'"
+                class="badge text-uppercase fs-6 mb-3"
+                [ngClass]="{
+                  'bg-warning-subtle text-warning-emphasis': aluno.prioridade === 'Média',
+                  'bg-danger-subtle text-danger-emphasis': aluno.prioridade === 'Alta' || aluno.prioridade === 'Urgente'
+                }">
+             <i class="bi bi-star-fill me-1"></i> {{aluno.prioridade}}
+          </span>
+
+          <a [routerLink]="['/alunos/editar', aluno.id]" class="btn btn-primary w-100 mb-2">
+            <i class="bi bi-pencil-square me-1"></i> Editar Cadastro
+          </a>
+          <button (click)="excluirAluno()" class="btn btn-outline-danger" title="Excluir Aluno">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>Curso:</strong> {{ aluno.curso?.nome }}
+          </li>
+          <li class="list-group-item">
+            <strong>Turma:</strong> {{ aluno.turma?.nome }}
+          </li>
+           <li class="list-group-item">
+            <strong>Série:</strong> {{ aluno.serie || 'N/A' }}
+          </li>
+          <li class="list-group-item">
+            <strong>CPF:</strong> {{ aluno.cpf || 'N/A' }}
+          </li>
+          <li class="list-group-item">
+            <strong>Telefone:</strong> {{ aluno.telefoneEstudante || 'N/A' }}
+          </li>
+          <li class="list-group-item">
+            <strong>SIPAC:</strong> {{ aluno.processoSipac || 'N/A' }}
+          </li>
+          <li class="list-group-item">
+            <strong>Diagnósticos:</strong>
+            <span *ngIf="aluno.diagnosticos.length === 0" class="text-muted">Nenhum</span>
+            <div *ngIf="aluno.diagnosticos.length > 0" class="mt-1">
+              <span *ngFor="let diag of aluno.diagnosticos" class="badge bg-info-subtle text-info-emphasis me-1">
+                {{ diag.nome }}
+              </span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-lg-8 col-md-7">
+
+      <ul class="nav nav-tabs nav-fill mb-0">
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'atendimentos'" (click)="mudarAbaPrincipal('atendimentos')">
+            <i class="bi bi-person-check-fill me-1"></i> Atendimentos ({{ atendimentos().length }})
+          </a>
+        </li>
+        <li class="nav-item">
+           <a class="nav-link" [class.active]="activeTab === 'laudos'" (click)="mudarAbaPrincipal('laudos')">
+            <i class="bi bi-file-earmark-pdf-fill me-1"></i> Laudos ({{ laudos().length }})
+          </a>
+        </li>
+      </ul>
+
+      <div class="card shadow-sm border-top-0 rounded-top-0">
+
+        <div [hidden]="activeTab !== 'atendimentos'">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Histórico de Atendimentos</span>
+            <button class="btn btn-warning btn-sm" (click)="abrirModalAtendimento(null)">
+              <i class="bi bi-plus-circle me-1"></i> Registrar Atendimento
+            </button>
+          </div>
+
+          <div class="card-body p-4">
+             <div class="timeline" *ngIf="atendimentos().length > 0; else semAtendimentos">
+              <div *ngFor="let att of atendimentos()" class="timeline-item animate__animated animate__fadeIn">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <div class="timeline-header">
+                    <span class="timeline-title">
+                      {{ att.tipoAtendimentoNome }}
+                    </span>
+                    <span class="timeline-date text-muted">
+                      {{ att.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}
+                    </span>
+                  </div>
+                  <div class="timeline-body">
+                    <p>{{ att.descricao }}</p>
+                    <small class="text-muted">
+                      Por: <strong>{{ att.responsavelNome }}</strong> | Status: <strong>{{ att.status }}</strong>
+                    </small>
+                  </div>
+                  <div class="timeline-actions">
+                    <button (click)="abrirModalAtendimento(att)" class="btn btn-sm btn-link-secondary p-1" title="Editar">
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button (click)="excluirAtendimento(att.id)" class="btn btn-sm btn-link-danger p-1" title="Excluir">
+                      <i class="bi bi-trash-fill"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-template #semAtendimentos>
+              <div class="alert alert-light text-center" role="alert">
+                Nenhum atendimento registrado.
+              </div>
+            </ng-template>
+          </div>
+        </div>
+
+        <div [hidden]="activeTab !== 'laudos'">
+           <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Laudos Médicos Anexados</span>
+            <button class="btn btn-warning btn-sm" (click)="abrirModalLaudo()">
+              <i class="bi bi-plus-circle me-1"></i> Adicionar Laudo (Link)
+            </button>
+          </div>
+          <div class="card-body p-4">
+             <div *ngIf="laudos().length > 0; else semLaudos">
+              <ul class="list-group">
+                 <li *ngFor="let laudo of laudos()" class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <i class="bi bi-file-earmark-text-fill text-danger me-2"></i>
+                    <a [href]="laudo.urlArquivo" target="_blank" rel="noopener noreferrer">
+                      {{ laudo.descricao || ('Laudo de ' + (laudo.dataEmissao | date:'dd/MM/yyyy')) }}
+                    </a>
+                    <small class="d-block text-muted">
+                      Emissão: {{ laudo.dataEmissao | date:'dd/MM/yyyy' }}
+                    </small>
+                  </div>
+                  <button (click)="excluirLaudo(laudo.id)" class="btn btn-sm btn-outline-danger">
+                     <i class="bi bi-trash"></i>
+                  </button>
+                </li>
+              </ul>
+            </div>
+             <ng-template #semLaudos>
+                <div class="alert alert-light text-center" role="alert">
+                  Nenhum laudo anexado.
+                </div>
+             </ng-template>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+     <div class="text-center p-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+     </div>
+  </ng-template>
+
+
+  <div class="modal fade" [class.show]="showModalAtendimento()" [style.display]="showModalAtendimento() ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form [formGroup]="formAtendimento" (ngSubmit)="salvarAtendimento()">
+          <div class="modal-header">
+            <h5 class="modal-title">
+               {{ atendimentoEmEdicaoId() ? 'Editar Atendimento' : 'Registrar Novo Atendimento' }}
+            </h5>
+            <button type="button" class="btn-close" (click)="fecharModalAtendimento()"></button>
+          </div>
+          <div class="modal-body">
+
+            <div class="mb-3">
+              <label for="attDataHora" class="form-label">Data e Hora *</label>
+              <input type="datetime-local" id="attDataHora" class="form-control" formControlName="dataHora">
+            </div>
+
+            <div class="mb-3">
+              <label for="attTipo" class="form-label">Tipo de Atendimento *</label>
+              <select id="attTipo" class="form-select" formControlName="tipoAtendimentoId">
+                 <option [ngValue]="null" disabled>Selecione...</option>
+                 <option *ngFor="let tipo of tiposAtendimento()" [ngValue]="tipo.id">{{ tipo.nome }}</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="attResponsavel" class="form-label">Responsável (Usuário NAAPI) *</label>
+              <select id="attResponsavel" class="form-select" formControlName="responsavelId">
+                 <option [ngValue]="null" disabled>Selecione...</option>
+                 <option *ngFor="let user of usuariosNaapi()" [ngValue]="user.id">{{ user.nome }}</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="attStatus" class="form-label">Status *</label>
+              <select id="attStatus" class="form-select" formControlName="status">
+                 <option value="Realizado">Realizado</option>
+                 <option value="Agendado">Agendado</option>
+                 <option value="Cancelado">Cancelado</option>
+                 <option value="Faltou">Faltou</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="attDescricao" class="form-label">Descrição / Encaminhamento *</label>
+              <textarea id="attDescricao" class="form-control" formControlName="descricao" rows="4"></textarea>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="fecharModalAtendimento()">Cancelar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="formAtendimento.invalid">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop fade" [class.show]="showModalAtendimento()" [style.display]="showModalAtendimento() ? 'block' : 'none'"></div>
+
+  <div class="modal fade" [class.show]="showModalLaudo()" [style.display]="showModalLaudo() ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form [formGroup]="formLaudo" (ngSubmit)="salvarLaudo()">
+          <div class="modal-header">
+            <h5 class="modal-title">Adicionar Novo Laudo (via Link)</h5>
+            <button type="button" class="btn-close" (click)="fecharModalLaudo()"></button>
+          </div>
+          <div class="modal-body">
+
+            <div class="alert alert-warning small">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              <strong>Interface em Desenvolvimento:</strong> A API atual só aceita <strong>links (URLs)</strong>. O upload de arquivos PDF ainda precisa de implementação no Backend.
+            </div>
+
+            <div class="mb-3">
+              <label for="laudoFile" class="form-label">Anexar Laudo (PDF) *</label>
+              <input type="file" id="laudoFile" class="form-control" accept=".pdf"
+                    (change)="onLaudoSelecionado($event)">
+            </div>
+
+            <div class="mb-3">
+              <label for="laudoData" class="form-label">Data de Emissão *</label>
+              <input type="date" id="laudoData" class="form-control" formControlName="dataEmissao">
+            </div>
+
+            <div class="mb-3">
+              <label for="laudoDesc" class="form-label">Descrição (Opcional)</label>
+              <input type="text" id="laudoDesc" class="form-control" formControlName="descricao" placeholder="Ex: Laudo de TDAH">
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="fecharModalLaudo()">Cancelar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="formLaudo.invalid">Salvar Laudo</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop fade" [class.show]="showModalLaudo()" [style.display]="showModalLaudo() ? 'block' : 'none'"></div>
+
+</div>
