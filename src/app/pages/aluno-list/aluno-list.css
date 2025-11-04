@@ -1,0 +1,26 @@
+/* Adicionar em styles.css ou num CSS específico para tabelas */
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 31, 63, 0.05); /* Hover suave com a cor navy */
+}
+
+.table .badge { /* Ajuste no tamanho e padding do badge */
+    padding: 0.4em 0.6em;
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.table th { /* Cabeçalho da tabela */
+    font-weight: 600; /* Mais destaque */
+    color: var(--naapi-navy);
+    font-size: 0.9em;
+    text-transform: uppercase; /* Opcional: tudo maiúsculo */
+    letter-spacing: 0.5px; /* Opcional: espaçamento entre letras */
+}
+
+.table td { /* Células da tabela */
+    font-size: 0.95em;
+}
+
+.table-responsive { /* Garante que scroll funcione bem em telas menores */
+    overflow-x: auto;
+}

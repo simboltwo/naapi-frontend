@@ -1,38 +1,58 @@
 /* src/styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap'); /* Exemplo com Poppins */
 @import "animate.css";
-/* Define variáveis de cor globais */
-:root {
-  --naapi-navy: #001f3f;       /* Azul Marinho Principal */
-  --naapi-navy-darker: #001122; /* Tom mais escuro para hover/active */
-  --naapi-navy-lighter: #003366;/* Tom mais claro */
-  --naapi-yellow: #FFDC00;     /* Amarelo Principal */
-  --naapi-yellow-darker: #e6c600;/* Tom mais escuro para hover/active */
-  --naapi-bg-light: #f8f9fa;   /* Fundo claro */
-  --naapi-text-muted: #6c757d; /* Cinza para texto suave */
 
-  /* Sobrescrevendo cores Bootstrap (Opcional, mas útil para consistência) */
+:root {
+  /* Suas variáveis existentes */
+  --naapi-navy: #001f3f;
+  --naapi-navy-darker: #001122;
+  --naapi-navy-lighter: #003366;
+  --naapi-yellow: #FFDC00;
+  --naapi-yellow-darker: #e6c600;
+  --naapi-bg-light: #f8f9fa;
+  --naapi-text-muted: #6c757d;
+
+  /* Sobrescrevendo cores Bootstrap */
   --bs-primary: var(--naapi-navy);
   --bs-primary-rgb: 0, 31, 63;
-  --bs-secondary: #6c757d; /* Cinza padrão do Bootstrap */
+  --bs-secondary: #6c757d;
   --bs-secondary-rgb: 108, 117, 125;
   --bs-warning: var(--naapi-yellow);
   --bs-warning-rgb: 255, 220, 0;
   --bs-link-color: var(--naapi-navy-lighter);
   --bs-link-hover-color: var(--naapi-navy-darker);
-  --bs-body-bg: var(--naapi-bg-light); /* Fundo padrão do body */
+  --bs-body-bg: var(--naapi-bg-light);
+  --bs-body-font-family: 'Poppins', sans-serif; /* <<< Aplicar a fonte aqui */
+}
+
+
+html, body {
+  height: 100%; /* Garante que html e body ocupem toda a altura */
+  width: 100%;  /* Garante que html e body ocupem toda a largura */
+  margin: 0;    /* Remove margens padrão do navegador */
+  padding: 0;   /* Remove paddings padrão do navegador */
+  overflow-x: hidden; /* Previne scroll horizontal caso algo exceda 100% */
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Remova a font-family daqui se definiu em :root */
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; */
   font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #212529; /* Cor de texto padrão mais escura */
+  font-weight: 400; /* Peso padrão */
+  line-height: 1.6; /* Aumentar um pouco para melhor legibilidade */
+  color: #343a40; /* Um pouco mais escuro que o padrão */
   background-color: var(--bs-body-bg);
+  -webkit-font-smoothing: antialiased; /* Melhora a renderização da fonte */
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Estilos de Botão Primário (Azul Marinho) */
+
+/* Ajuste global de links */
+a {
+  transition: color 0.2s ease-in-out;
+}
+
+/* Estilos de Botão Primário (Azul Marinho) - OK */
 .btn-primary {
   --bs-btn-bg: var(--naapi-navy);
   --bs-btn-border-color: var(--naapi-navy);
@@ -40,35 +60,64 @@ body {
   --bs-btn-hover-border-color: var(--naapi-navy-lighter);
   --bs-btn-active-bg: var(--naapi-navy-darker);
   --bs-btn-active-border-color: var(--naapi-navy-darker);
-  --bs-btn-disabled-bg: #adb5bd; /* Cinza para desabilitado */
+  --bs-btn-disabled-bg: #adb5bd;
   --bs-btn-disabled-border-color: #adb5bd;
   --bs-btn-color: #fff;
   --bs-btn-hover-color: #fff;
   --bs-btn-active-color: #fff;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out; /* Adiciona transição suave */
 }
 
-/* Estilo para Foco (Amarelo) */
+/* Adicionar transição para botões secundários também */
+ .btn-secondary {
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+ }
+ .btn-outline-danger, .btn-outline-secondary {
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+ }
+
+/* Estilo para Foco (Amarelo) - OK */
 .form-control:focus, .form-select:focus {
   border-color: var(--naapi-yellow);
   box-shadow: 0 0 0 0.25rem rgba(255, 220, 0, 0.3);
 }
 
-/* Títulos das Páginas/Cards */
-h2.page-title {
+/* Títulos das Páginas/Cards - Ajustar tamanho e espaçamento */
+h2.page-title { /* Manteve a classe, mas pode ser h2 direto dentro de .card-header se preferir */
   color: var(--naapi-navy);
   margin-bottom: 1.5rem;
-  font-weight: 500;
+  font-size: 1.5rem; /* Um pouco maior */
+  font-weight: 600; /* Mais destaque */
 }
 
-/* Estilo Base para Cards */
+/* Estilo Base para Cards - OK */
 .card {
-  border: none; /* Remover borda padrão */
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Sombra suave */
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  margin-bottom: 1.5rem; /* Adiciona espaço entre cards se houver mais de um na mesma página */
 }
 
 .card-header.naapi-card-header {
   background-color: var(--naapi-navy);
   color: var(--naapi-yellow);
-  font-weight: bold;
+  font-weight: 600; /* Usar 600 para consistência */
   border-bottom: 1px solid var(--naapi-navy-darker);
+  padding: 0.8rem 1.25rem; /* Ajuste no padding */
+  font-size: 1.1rem; /* Tamanho ligeiramente maior para o header */
+}
+
+/* Estilo para mensagens de validação */
+.invalid-feedback, .text-danger.small {
+    font-size: 0.8em; /* Menor para não ser tão intrusivo */
+    margin-top: 0.25rem; /* Espaço acima da mensagem */
+}
+
+/* Ajuste para ícones dentro de botões */
+.btn i.bi {
+    vertical-align: middle; /* Alinha melhor o ícone com o texto */
+    margin-top: -3px; /* Pequeno ajuste vertical */
+    margin-right: 0.3rem; /* Espaço entre ícone e texto */
+}
+.btn .bi + span { /* Se usar <span> para o texto */
+    vertical-align: middle;
 }

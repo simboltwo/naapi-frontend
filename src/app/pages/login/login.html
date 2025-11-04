@@ -1,68 +1,75 @@
 <div class="login-background">
-  <div class="login-card card shadow-lg animate__animated animate__fadeIn">
-     <div class="card-body p-4 p-md-5">
+  <div class="login-container">
+    <div class="login-card card shadow-lg animate__animated animate__fadeInUp">
+      <div class="card-body p-lg-5 p-4">
 
-      <div class="text-center mb-4">
-      </div>
+        <div class="login-header text-center mb-4">
+          <h1 class="login-brand-title mb-1">NAAPI</h1>
+          <p class="login-brand-subtitle text-muted">Plataforma de Apoio Institucional</p>
+          </div>
 
-      <h2 class="card-title text-center mb-3 login-title">Bem-vindo(a)</h2>
-      <p class="text-center text-muted mb-4">Acesse a plataforma NAAPI</p>
+        <h2 class="card-title text-center mb-4 login-form-title">Acesse sua conta</h2>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-        <div class="mb-3 input-group">
-          <span class="input-group-text"><i class="bi bi-envelope-fill text-muted"></i></span>
-           <div class="form-floating flex-grow-1">
+          <div *ngIf="loginError" class="alert alert-danger d-flex align-items-center alert-sm py-2 mb-3" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <div>
+              {{ loginError }}
+            </div>
+          </div>
+
+          <div class="form-floating mb-3">
             <input
-              id="username"
               type="email"
               class="form-control"
+              id="username"
+              placeholder="seu.email@dominio.com"
               formControlName="username"
-               placeholder="seu.email@dominio.com"
               required
               autocomplete="username"
-            >
-            <label for="username">Email</label>
+              [class.is-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+            <label for="username">
+              <i class="bi bi-envelope-fill text-muted me-2"></i>Email
+            </label>
+            <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="invalid-feedback">
+              Por favor, insira um email válido.
+            </div>
           </div>
-        </div>
-        <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="text-danger mb-3 small ms-1">
-          Por favor, insira um email válido.
-        </div>
 
-        <div class="mb-4 input-group">
-           <span class="input-group-text"><i class="bi bi-lock-fill text-muted"></i></span>
-           <div class="form-floating flex-grow-1">
+          <div class="form-floating mb-4">
             <input
-              id="password"
               type="password"
               class="form-control"
-              formControlName="password"
+              id="password"
               placeholder="Sua senha"
+              formControlName="password"
               required
               autocomplete="current-password"
-            >
-            <label for="password">Senha</label>
+              [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            <label for="password">
+               <i class="bi bi-lock-fill text-muted me-2"></i>Senha
+            </label>
+            <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="invalid-feedback">
+              Senha é obrigatória.
+            </div>
           </div>
-        </div>
-         <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger mb-4 small ms-1">
-          Senha é obrigatória.
-        </div>
 
-         <div class="d-grid gap-2">
-          <button
-            type="submit"
-             class="btn btn-primary btn-lg btn-login-custom"
-            [disabled]="loginForm.invalid"
-          >
-            <i class="bi bi-box-arrow-in-right me-2"></i> Entrar
-          </button>
-        </div>
+          <div class="d-grid gap-2 mt-4">
+            <button
+              type="submit"
+              class="btn btn-primary btn-lg btn-login-custom"
+              [disabled]="loginForm.invalid">
+              <i class="bi bi-box-arrow-in-right me-2"></i> Entrar
+            </button>
+          </div>
 
-        <p class="mt-4 text-center text-muted small login-help-text">
-          (admin@naapi.com / 123456)
-        </p>
+           <p class="mt-4 text-center text-muted small login-help-text">
+             (admin@naapi.com / 123456)
+           </p>
 
         </form>
+      </div>
     </div>
   </div>
 </div>

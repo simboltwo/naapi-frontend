@@ -1,12 +1,14 @@
+/* src/app/shared/menu/menu.css */
 .naapi-navbar {
   background-color: var(--naapi-navy);
-  padding-top: 0.8rem; /* Aumenta um pouco a altura */
+  padding-top: 0.8rem;
   padding-bottom: 0.8rem;
 }
 
 .navbar-brand {
    color: var(--naapi-yellow) !important;
-   font-size: 1.5rem; /* Tamanho da fonte da marca */
+   font-size: 1.6rem; /* Ligeiramente maior */
+   font-weight: 600; /* Mais destaque */
    transition: opacity 0.2s ease;
 }
 .navbar-brand:hover {
@@ -14,27 +16,32 @@
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.8) !important; /* Cor dos links normais (branco suave) */
+  color: rgba(255, 255, 255, 0.85) !important; /* Ligeiramente mais visível */
   transition: color 0.2s ease, background-color 0.2s ease;
-  border-radius: 4px; /* Leve arredondamento para hover */
-  margin: 0 0.2rem; /* Pequeno espaçamento entre links */
+  border-radius: 4px;
+  margin: 0 0.3rem; /* Um pouco mais de espaço */
+  padding: 0.6rem 0.8rem; /* Aumenta área clicável */
+  font-size: 0.95rem; /* Tamanho da fonte dos links */
 }
 
-/* Efeito hover geral */
-.nav-link:hover:not(.active-link) { /* Não aplica hover se já estiver ativo */
-  color: #fff !important; /* Branco mais forte no hover */
-  background-color: var(--naapi-navy-lighter); /* Fundo azul mais claro no hover */
+.nav-link:hover:not(.active-link) {
+  color: #fff !important;
+  background-color: var(--naapi-navy-lighter);
 }
 
-/* Estilo do link ativo */
 .nav-link.active-link {
-  color: var(--naapi-yellow) !important; /* Cor amarela para ativo */
-  font-weight: 500; /* Negrito suave */
-  background-color: rgba(255, 255, 255, 0.1); /* Fundo sutil para ativo */
+  color: var(--naapi-yellow) !important;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Estilo específico para o link de Sair (opcional) */
+/* Ícone de Sair */
+.logout-link .bi {
+     margin-right: 0.4rem; /* Espaço para o ícone de sair */
+     font-size: 1.1em;
+}
+
 .logout-link:hover {
-    background-color: rgba(255, 0, 0, 0.2); /* Fundo avermelhado suave no hover */
-    color: #ffdddd !important; /* Texto avermelhado claro */
+    background-color: rgba(255, 80, 80, 0.2); /* Vermelho mais suave no hover */
+    color: #ffe0e0 !important;
 }
